@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Button from "../ui/Button"
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
@@ -8,11 +8,23 @@ export default function NamesScreen({ namesList, favoritesList, setFavoritesList
     const currentNationality = namesList[currentIndex].nationality  // derive nationality from index
     const currentGender = namesList[currentIndex].gender  // derive gender
 
+
     // Navigation function for prev and next buttons
-    const navigate = (direction) => {
-        // Use modulo to wrap around the list
+    const navigate = useCallback((direction) => {
         setCurrentIndex(prev => (prev + direction + namesList.length) % namesList.length)
-    }
+    }, [namesList.length])
+    // Keyboard navigation with arrow keys
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return
+            if (e.key === 'ArrowLeft') navigate(-1)
+            if (e.key === 'ArrowRight') navigate(1)
+        }
+
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [navigate])
+
 
     const addToFavorites = () => {
         if (isAlreadyFavorited) return  // check if already favorited
