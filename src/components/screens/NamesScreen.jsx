@@ -61,7 +61,7 @@ export default function NamesScreen({ namesList, favoritesList, setFavoritesList
                     <HiChevronRight />
                 </Button>
             </div >
-
+            <span>{currentIndex + 1} / {namesList.length}</span>
             <div className="controls">
                 <Button onClick={addToFavorites} disabled={isAlreadyFavorited}>
                     {isAlreadyFavorited ? 'Added to favorites ✅' : 'Add to favorites ❤️'}

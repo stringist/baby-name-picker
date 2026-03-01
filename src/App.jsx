@@ -17,7 +17,7 @@ function App() {
   const [filters, setFilters] = React.useState({
     gender: 'all',
     nationality: 'all',
-    vibe: 'all'
+    firstLetter: 'all'
   })
 
   // names imported from data file never changes, 
@@ -26,11 +26,18 @@ function App() {
     let result = [...names]
 
     // apply filters
+    // Gender filter
     if (filters.gender !== 'all') {
       result = result.filter(name => name.gender === filters.gender)
     }
+    // Nationality filter
     if (filters.nationality !== 'all') {
       result = result.filter(name => name.nationality.includes(filters.nationality))
+    }
+
+    // First letter filter
+    if (filters.firstLetter !== 'all') {
+      result = result.filter(name => name.name.startsWith(filters.firstLetter))
     }
 
     // apply sorting
