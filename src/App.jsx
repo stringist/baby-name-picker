@@ -11,29 +11,61 @@ function App() {
   const [screen, setScreen] = React.useState('showNames')
   const [namesList, setNamesList] = React.useState(names)
 
+
+
+  const [sortOrder, setSortOrder] = React.useState('a-z')
   const [filters, setFilters] = React.useState({
     gender: 'all',
     nationality: 'all',
-    vibe: 'all',
-    sortBy: 'alphabetical'
+    vibe: 'all'
   })
 
-  const applyFilters = (namesList, filters) => {
-    let filtered = [...namesList]
+  // names imported from data file never changes, 
+  // displayedNames is derived from it whenever sort or filters change
+  const displayedNames = React.useMemo(() => {
+    let result = [...names]
 
-    // Apply new filter logic here
-  }
-
-  const applySorting = (sortBy) => {
-
-    if (sortBy === 'random') {
-      console.log('Randomizing names...')
-      setNamesList(prevList => [...prevList].sort(() => Math.random() - 0.5))
+    // apply filters
+    if (filters.gender !== 'all') {
+      result = result.filter(name => name.gender === filters.gender)
+    }
+    if (filters.nationality !== 'all') {
+      result = result.filter(name => name.nationality.includes(filters.nationality))
     }
 
-    // Apply new sorting logic here
-  }
+    // apply sorting
+    if (sortOrder === 'a-z') result.sort((a, b) => a.name.localeCompare(b.name))
+    if (sortOrder === 'z-a') result.sort((a, b) => b.name.localeCompare(a.name))
+    if (sortOrder === 'random') result.sort(() => Math.random() - 0.5)
 
+    return result
+  }, [sortOrder, filters])
+  // // Filters state and function
+  // const [filters, setFilters] = React.useState({
+  //   gender: 'all',
+  //   nationality: 'all',
+  //   vibe: 'all'
+  // })
+
+  // const applyFilters = (namesList, filters) => {
+  //   let filtered = [...namesList]
+
+  //   // Apply new filter logic here
+  // }
+
+  // // Sorting state and function
+  // const [sortOrder, setSortOrder] = React.useState('a-z')  // initial sort order
+
+  // const applySorting = (sortBy) => {
+  //   setSortOrder(sortBy)
+  //   setNamesList(prevList => {
+  //     const sorted = [...prevList]
+  //     if (sortBy === 'random') return sorted.sort(() => Math.random() - 0.5)
+  //     if (sortBy === 'a-z') return sorted.sort((a, b) => a.name.localeCompare(b.name))
+  //     if (sortBy === 'z-a') return sorted.sort((a, b) => b.name.localeCompare(a.name))
+  //     return sorted
+  //   })
+  // }
 
 
   const [favoritesList, setFavoritesList] = React.useState([])
@@ -47,9 +79,10 @@ function App() {
           <WelcomeScreen />
 
           <Options
-            applyFilters={applyFilters}
-            applySorting={applySorting}
-            namesList={namesList}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+            filters={filters}
+            setFilters={setFilters}
           />
         </div>
       }
@@ -57,15 +90,16 @@ function App() {
         <div className="names-screen">
 
           <NamesScreen
-            namesList={namesList}
+            namesList={displayedNames}
             favoritesList={favoritesList}
             setFavoritesList={setFavoritesList}
             setScreen={setScreen} />
 
           <Options
-            applyFilters={applyFilters}
-            applySorting={applySorting}
-            namesList={namesList}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+            filters={filters}
+            setFilters={setFilters}
           />
         </div>
       }
