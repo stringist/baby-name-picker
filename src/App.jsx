@@ -8,7 +8,7 @@ import { names } from './data/names.js'
 
 
 function App() {
-  const [currentScreen, setCurrentScreen] = React.useState('showNames')
+  const [screen, setScreen] = React.useState('showNames')
   const [namesList, setNamesList] = React.useState(names)
 
   const [filters, setFilters] = React.useState({
@@ -26,11 +26,10 @@ function App() {
 
   const applySorting = (sortBy) => {
 
-    // if (sortBy === 'random') {
-    //   console.log('Randomizing names...')
-    //   setNamesList(prevList => [...prevList].sort(() => Math.random() - 0.5))
-
-    // }
+    if (sortBy === 'random') {
+      console.log('Randomizing names...')
+      setNamesList(prevList => [...prevList].sort(() => Math.random() - 0.5))
+    }
 
     // Apply new sorting logic here
   }
@@ -42,10 +41,42 @@ function App() {
 
   return (
     <>
-      {currentScreen === 'welcome' && <WelcomeScreen />}
-      <NamesScreen namesList={namesList} favoritesList={favoritesList} setFavoritesList={setFavoritesList} />
-      <Options applyFilters={applyFilters} applySorting={applySorting} namesList={namesList} />
-      {<FavoritesScreen favoritesList={favoritesList} />}
+      {screen === 'welcome' &&
+        <div className="welcome-screen">
+
+          <WelcomeScreen />
+
+          <Options
+            applyFilters={applyFilters}
+            applySorting={applySorting}
+            namesList={namesList}
+          />
+        </div>
+      }
+      {screen === 'showNames' &&
+        <div className="names-screen">
+
+          <NamesScreen
+            namesList={namesList}
+            favoritesList={favoritesList}
+            setFavoritesList={setFavoritesList}
+            setScreen={setScreen} />
+
+          <Options
+            applyFilters={applyFilters}
+            applySorting={applySorting}
+            namesList={namesList}
+          />
+        </div>
+      }
+
+      {screen === 'favorites' &&
+        <div className="favorites-screen">
+          <FavoritesScreen
+            favoritesList={favoritesList}
+            setScreen={setScreen} />
+        </div>}
+
     </>
   )
 }

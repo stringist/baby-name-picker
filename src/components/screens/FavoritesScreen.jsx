@@ -1,4 +1,7 @@
-export default function FavoritesScreen({ favoritesList }) {
+import React, { useState } from "react"
+import Button from "../ui/Button"
+
+export default function FavoritesScreen({ favoritesList, setScreen }) {
     return (
         <div className="favorites-screen">
             <h1>Your Favorite Names</h1>
@@ -11,6 +14,7 @@ export default function FavoritesScreen({ favoritesList }) {
                     ))}
                 </ul>
             )}
+            <Button onClick={() => setScreen('showNames')}>Back to names</Button>
         </div>
     )
 }

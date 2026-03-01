@@ -4,6 +4,12 @@ import './ui.css'
 export default function Options(props) {
     let alphabetized = false
 
+    const latinLetters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))
+    const nordicLetters = ['Æ', 'Ø', 'Å', 'Ä', 'Ö', 'Ü']
+
+    const letters = [...latinLetters, ...nordicLetters]
+
+
 
 
     return (
@@ -37,10 +43,10 @@ export default function Options(props) {
                 <option value="scandinavian">Scandinavian</option> */}
                 </select>
             </label>
-            <label htmlFor="firstLetter">First letter
+            <label htmlFor="firstLetter">First letter:
                 <select id="firstLetter" name="firstLetter" onChange={(e) => console.log(`Selected first letter: ${e.target.value}`)}>
                     <option value="all" defaultValue>All letters</option>
-                    {[...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].map(letter => (
+                    {letters.map(letter => (
                         <option key={letter} value={letter}>{letter}</option>
                     ))}
                 </select></label>
