@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 import Button from "../ui/Button"
+import FavoritesListItem from "../ui/FavoritesListItem"
+import './FavoritesScreen.css'
 
 export default function FavoritesScreen({ favoritesList, setScreen }) {
     return (
@@ -10,7 +12,7 @@ export default function FavoritesScreen({ favoritesList, setScreen }) {
             ) : (
                 <ul>
                     {favoritesList.map((fav, index) => (
-                        <li key={index}>{fav.name}</li>
+                        <FavoritesListItem key={index} name={fav.name} nationality={fav.nationality} gender={fav.gender} />
                     ))}
                 </ul>
             )}

@@ -8,7 +8,7 @@ import { names } from './data/names.js'
 
 
 function App() {
-  const [screen, setScreen] = React.useState('showNames')
+  const [screen, setScreen] = React.useState('welcome')  // 'welcome', 'showNames', 'favorites'
   const [namesList, setNamesList] = React.useState(names)
 
 
@@ -47,32 +47,6 @@ function App() {
 
     return result
   }, [sortOrder, filters])
-  // // Filters state and function
-  // const [filters, setFilters] = React.useState({
-  //   gender: 'all',
-  //   nationality: 'all',
-  //   vibe: 'all'
-  // })
-
-  // const applyFilters = (namesList, filters) => {
-  //   let filtered = [...namesList]
-
-  //   // Apply new filter logic here
-  // }
-
-  // // Sorting state and function
-  // const [sortOrder, setSortOrder] = React.useState('a-z')  // initial sort order
-
-  // const applySorting = (sortBy) => {
-  //   setSortOrder(sortBy)
-  //   setNamesList(prevList => {
-  //     const sorted = [...prevList]
-  //     if (sortBy === 'random') return sorted.sort(() => Math.random() - 0.5)
-  //     if (sortBy === 'a-z') return sorted.sort((a, b) => a.name.localeCompare(b.name))
-  //     if (sortBy === 'z-a') return sorted.sort((a, b) => b.name.localeCompare(a.name))
-  //     return sorted
-  //   })
-  // }
 
 
   const [favoritesList, setFavoritesList] = React.useState([])
@@ -83,14 +57,15 @@ function App() {
       {screen === 'welcome' &&
         <div className="welcome-screen">
 
-          <WelcomeScreen />
-
-          <Options
+          <WelcomeScreen
+            setScreen={setScreen}
             sortOrder={sortOrder}
             setSortOrder={setSortOrder}
             filters={filters}
             setFilters={setFilters}
           />
+
+
         </div>
       }
       {screen === 'showNames' &&
